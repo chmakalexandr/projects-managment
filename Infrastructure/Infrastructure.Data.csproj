@@ -52,7 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProjectsManagment\Domain\Domain.Core\Domain.Core.csproj">
+    <ProjectReference Include="..\Domain\Domain.Core\Domain.Core.csproj">
       <Project>{a4a37ca9-2b2a-4450-bd56-22ec06ab0003}</Project>
       <Name>Domain.Core</Name>
     </ProjectReference>
