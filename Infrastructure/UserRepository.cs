@@ -9,13 +9,18 @@ using Domain.Interfaces;
 
 namespace Infrastructure.Data
 {
-    class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private PMContext db;
 
         public UserRepository()
         {
             this.db = new PMContext();
+        }
+
+        public UserRepository(PMContext context)
+        {
+            this.db = context;
         }
 
         public IEnumerable<User> GetUserList()

@@ -9,7 +9,7 @@ using Domain.Interfaces;
 
 namespace Infrastructure.Data
 {
-    class RoleRepository : IRoleRepository
+    public class RoleRepository : IRoleRepository
     {
         private PMContext db;
 
@@ -18,7 +18,12 @@ namespace Infrastructure.Data
             this.db = new PMContext();
         }
 
-        public IEnumerable<Role> GetRoleList()
+        public RoleRepository(PMContext context)
+        {
+            this.db = context;
+        }
+
+            public IEnumerable<Role> GetRoleList()
         {
             return db.Roles.ToList();
         }

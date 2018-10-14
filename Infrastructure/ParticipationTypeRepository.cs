@@ -9,7 +9,7 @@ using Domain.Interfaces;
 
 namespace Infrastructure.Data
 {
-    class ParticipationTypeRepository : IParticipationTypeRepository
+    public class ParticipationTypeRepository : IParticipationTypeRepository
     {
         private PMContext db;
 

@@ -9,13 +9,18 @@ using Domain.Interfaces;
 
 namespace Infrastructure.Data
 {
-    class ProjectRoleRepository : IProjectRoleRepository
+    public class ProjectRoleRepository : IProjectRoleRepository
     {
         private PMContext db;
 
         public ProjectRoleRepository()
         {
             this.db = new PMContext();
+        }
+
+        public ProjectRoleRepository(PMContext context)
+        {
+            this.db = context;
         }
 
         public IEnumerable<ProjectRole> GetProjectRoleList()

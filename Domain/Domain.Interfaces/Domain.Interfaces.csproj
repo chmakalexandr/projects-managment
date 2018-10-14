@@ -45,7 +45,7 @@
     <Compile Include="IProjectRepository.cs" />
     <Compile Include="IProjectRoleRepository.cs" />
     <Compile Include="IRoleRepository.cs" />
-    <Compile Include="IScheduleRepository.cs" />
+    <Compile Include="IProjectParticipationHistoryRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -9,40 +9,45 @@ using Domain.Interfaces;
 
 namespace Infrastructure.Data
 {
-    class ScheduleRepository : IScheduleRepository
+    public class ProjectParticipationHistoryRepository : IProjectParticipationHistoryRepository
     {
         private PMContext db;
 
-        public ScheduleRepository()
+        public ProjectParticipationHistoryRepository()
         {
             this.db = new PMContext();
         }
 
-        public IEnumerable<Schedule> GetScheduleList()
+        public ProjectParticipationHistoryRepository(PMContext context)
         {
-            return db.Schedules.ToList();
+            this.db = context;
         }
 
-        public Schedule GetSchedule(int id)
+        public IEnumerable<ProjectParticipationHistory> GetProjectParticipationHistoryList()
         {
-            return db.Schedules.Find(id);
+            return db.ProjectParticipationHistories.ToList();
         }
 
-        public void Create(Schedule schedule)
+        public ProjectParticipationHistory GetProjectParticipationHistory(int id)
         {
-            db.Schedules.Add(schedule);
+            return db.ProjectParticipationHistories.Find(id);
         }
 
-        public void Update(Schedule schedule)
+        public void Create(ProjectParticipationHistory schedule)
+        {
+            db.ProjectParticipationHistories.Add(schedule);
+        }
+
+        public void Update(ProjectParticipationHistory schedule)
         {
             db.Entry(schedule).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
-            Schedule schedule = db.Schedules.Find(id);
+            ProjectParticipationHistory schedule = db.ProjectParticipationHistories.Find(id);
             if (schedule != null)
-                db.Schedules.Remove(schedule);
+                db.ProjectParticipationHistories.Remove(schedule);
         }
 
         public void Save()

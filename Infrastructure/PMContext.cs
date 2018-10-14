@@ -13,7 +13,7 @@ namespace Infrastructure.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<ProjectParticipationHistory> ProjectParticipationHistories { get; set; }
 
         public DbSet<ProjectRole> ProjectRoles { get; set; }
         public DbSet<ParticipationType> ParticipationTypes { get; set; }
