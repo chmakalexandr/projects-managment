@@ -16,7 +16,7 @@ namespace ProjectsManagment.Controllers
         }
         public ActionResult Index()
         {
-            var users = unitOfWork.Users.GetUserList();
+            var users = unitOfWork.UserRepository.FindById(1);
             return View();
         }
     }

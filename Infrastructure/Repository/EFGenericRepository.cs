@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Interfaces;
+
 
 namespace Infrastructure.Data
 {
@@ -33,20 +33,32 @@ namespace Infrastructure.Data
             return _dbSet.Find(id);
         }
 
+        public TEntity Find(string predicate)
+        {
+            return _dbSet.Find(predicate);
+        }
+
         public void Create(TEntity item)
         {
             _dbSet.Add(item);
-            _context.SaveChanges();
+            
         }
         public void Update(TEntity item)
         {
             _context.Entry(item).State = EntityState.Modified;
-            _context.SaveChanges();
+           
         }
         public void Remove(TEntity item)
         {
             _dbSet.Remove(item);
-            _context.SaveChanges();
+            
+        }
+        
+        public void Delete(int id)
+        {
+            var item = _dbSet.Find(id);
+            _dbSet.Remove(item);
+            
         }
     }
 }

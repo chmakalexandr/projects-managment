@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace Infrastructure.Data
 {
     interface IGenericRepository<TEntity> where TEntity : class
     {

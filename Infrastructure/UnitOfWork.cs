@@ -3,65 +3,66 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Core;
 
 namespace Infrastructure.Data
 {
     public class UnitOfWork : IDisposable
     {
         private PMContext db = new PMContext();
-        private UserRepository userRepository;
-        private ProjectRepository projectRepository;
-        private ProjectParticipationHistoryRepository projectParticipationHistoryRepository;
-        private ProjectRoleRepository projectRoleRepository;
-        private RoleRepository roleRepository;
-
-        public UserRepository Users
+        private EFGenericRepository<User> userRepository;
+        private EFGenericRepository<Project> projectRepository;
+        private EFGenericRepository<ProjectParticipationHistory> projectParticipationHistoryRepository;
+        private EFGenericRepository<ProjectRole> projectRoleRepository;
+        private EFGenericRepository<Role> roleRepository;
+       
+        public EFGenericRepository<User> UserRepository
         {
             get
             {
                 if (userRepository == null)
-                    userRepository = new UserRepository(db);
+                    userRepository = new EFGenericRepository<User>(db);
                 return userRepository;
             }
         }
 
-        public RoleRepository Roles
+        public EFGenericRepository<Role> RoleRepository
         {
             get
             {
                 if (roleRepository == null)
-                    roleRepository = new RoleRepository(db);
+                    roleRepository = new EFGenericRepository<Role>(db);
                 return roleRepository;
             }
         }
 
 
-        public ProjectRepository ProjectRepositories
+        public EFGenericRepository<Project> ProjectRepository
         {
             get
             {
                 if (projectRepository == null)
-                    projectRepository = new ProjectRepository(db);
+                    projectRepository = new EFGenericRepository<Project>(db);
                 return projectRepository;
             }
         }
 
-        public ProjectParticipationHistoryRepository ProjectParticipationHistoryRepositories
+        public EFGenericRepository<ProjectParticipationHistory> ProjectParticipationHistoryRepositoriy
         {
             get
             {
                 if (projectParticipationHistoryRepository == null)
-                    projectParticipationHistoryRepository = new ProjectParticipationHistoryRepository(db);
+                    projectParticipationHistoryRepository = new EFGenericRepository<ProjectParticipationHistory>(db);
                 return projectParticipationHistoryRepository;
             }
         }
 
-        public ProjectRoleRepository ProjectRoleRepositories
+        public EFGenericRepository<ProjectRole> ProjectRoleRepository
         {
             get
             {
                 if (projectRoleRepository == null)
-                    projectRoleRepository = new ProjectRoleRepository(db);
+                    projectRoleRepository = new EFGenericRepository<ProjectRole>(db);
                 return projectRoleRepository;
             }
         }

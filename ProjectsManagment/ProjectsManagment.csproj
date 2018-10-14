@@ -401,10 +401,6 @@
       <Project>{a4a37ca9-2b2a-4450-bd56-22ec06ab0003}</Project>
       <Name>Domain.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Domain\Domain.Interfaces\Domain.Interfaces.csproj">
-      <Project>{c1e98011-bf20-48b5-96c8-acdba2189eb1}</Project>
-      <Name>Domain.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.Data.csproj">
       <Project>{e5c3cc16-060a-45e8-8680-ba1511263846}</Project>
       <Name>Infrastructure.Data</Name>

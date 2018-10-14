@@ -41,12 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IParticipationTypeRepository.cs" />
-    <Compile Include="IProjectRepository.cs" />
-    <Compile Include="IProjectRoleRepository.cs" />
-    <Compile Include="IRoleRepository.cs" />
-    <Compile Include="IProjectParticipationHistoryRepository.cs" />
-    <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
