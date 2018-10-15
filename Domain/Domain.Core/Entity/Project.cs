@@ -8,29 +8,31 @@ using System.Threading.Tasks;
 
 namespace Domain.Core
 {
-    public class User
+    public class Project
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string Firstname { get; set; }
-
-        [MaxLength(100)]
-        public string Middlename { get; set; }
+        public string Title { get; set; }
 
         [Required]
-        [MaxLength(100)]
-        public string Lastname { get; set; }
+        [MaxLength(250)]
+        public string Description { get; set; }
 
         [Required]
-        private Role Role { get; set; }
+        public DateTime DateStart { get; set; }
+
+        [Required]
+        public DateTime DateEnd { get; set; }
+
+        [Required]
+        public string Status { get; set; }
 
         public ICollection<ProjectParticipationHistory> ProjectParticipationHistories { get; set; }
 
-        public User()
+        public Project()
         {
             ProjectParticipationHistories = new List<ProjectParticipationHistory>();
         }

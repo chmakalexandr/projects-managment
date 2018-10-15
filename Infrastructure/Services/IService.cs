@@ -12,8 +12,8 @@ namespace Infrastructure.Data
         IQueryable<TEntity> SelectQuery(string query, params object[] parameters);
         void Insert(TEntity entity);
         void Update(TEntity entity);
-        void Delete(int id);
         void Delete(TEntity entity);
-       
+        TEntity FindById(int id);
+        
     }
 }

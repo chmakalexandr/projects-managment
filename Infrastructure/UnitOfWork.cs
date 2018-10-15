@@ -9,67 +9,31 @@ namespace Infrastructure.Data
 {
     public class UnitOfWork : IDisposable
     {
-        private PMContext db = new PMContext();
-        private EFGenericRepository<User> userRepository;
-        private EFGenericRepository<Project> projectRepository;
-        private EFGenericRepository<ProjectParticipationHistory> projectParticipationHistoryRepository;
-        private EFGenericRepository<ProjectRole> projectRoleRepository;
-        private EFGenericRepository<Role> roleRepository;
-       
-        public EFGenericRepository<User> UserRepository
+        private PMContext context;
+
+        public UnitOfWork()
         {
-            get
+            context = new PMContext();
+        }
+        
+        private Dictionary<Type,object> repositories = new Dictionary<Type, object>();
+        public IGenericRepository<TEntity> EFGenericRepository<TEntity>() where TEntity: class
+        {
+            if (repositories.Keys.Contains(typeof(TEntity)) == true)
             {
-                if (userRepository == null)
-                    userRepository = new EFGenericRepository<User>(db);
-                return userRepository;
+                    return repositories[typeof(TEntity)] as IGenericRepository<TEntity>;
             }
+                   
+            IGenericRepository<TEntity> repository = new EFGenericRepository<TEntity>(context);
+            repositories.Add(typeof(TEntity), repository);
+            return repository;
         }
 
-        public EFGenericRepository<Role> RoleRepository
-        {
-            get
-            {
-                if (roleRepository == null)
-                    roleRepository = new EFGenericRepository<Role>(db);
-                return roleRepository;
-            }
-        }
-
-
-        public EFGenericRepository<Project> ProjectRepository
-        {
-            get
-            {
-                if (projectRepository == null)
-                    projectRepository = new EFGenericRepository<Project>(db);
-                return projectRepository;
-            }
-        }
-
-        public EFGenericRepository<ProjectParticipationHistory> ProjectParticipationHistoryRepositoriy
-        {
-            get
-            {
-                if (projectParticipationHistoryRepository == null)
-                    projectParticipationHistoryRepository = new EFGenericRepository<ProjectParticipationHistory>(db);
-                return projectParticipationHistoryRepository;
-            }
-        }
-
-        public EFGenericRepository<ProjectRole> ProjectRoleRepository
-        {
-            get
-            {
-                if (projectRoleRepository == null)
-                    projectRoleRepository = new EFGenericRepository<ProjectRole>(db);
-                return projectRoleRepository;
-            }
-        }
+        
 
         public void Save()
         {
-            db.SaveChanges();
+            context.SaveChanges();
         }
 
         private bool disposed = false;
@@ -80,7 +44,7 @@ namespace Infrastructure.Data
             {
                 if (disposing)
                 {
-                    db.Dispose();
+                    context.Dispose();
                 }
                 this.disposed = true;
             }

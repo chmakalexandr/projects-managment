@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.UI;
+using Domain.Core;
 using Infrastructure.Data;
 
 namespace ProjectsManagment.Controllers
@@ -9,14 +11,14 @@ namespace ProjectsManagment.Controllers
     //[Authorize]
     public class HomeController : Controller
     {
-        UnitOfWork unitOfWork;
+        private UserService userService;
         public HomeController()
         {
-            unitOfWork = new UnitOfWork();
+            userService = new UserService();
         }
         public ActionResult Index()
         {
-            var users = unitOfWork.UserRepository.FindById(1);
+            var users = userService.FindById(1);
             return View();
         }
     }

@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Core;
 
-namespace Infrastructure.Data
+namespace Infrastructure.Data.Services
 {
-    public class UserService : Service<User>
+    public class ProjectService : Service<Project>
     {
-        
     }
 }

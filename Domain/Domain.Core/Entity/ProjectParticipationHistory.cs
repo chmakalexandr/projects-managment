@@ -13,7 +13,6 @@ namespace Domain.Core
     public class ProjectParticipationHistory
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         public int? UserId { get; set; }
@@ -21,6 +20,9 @@ namespace Domain.Core
 
         public int? ProjectId { get; set; }
         public Project Project { get; set; }
+
+        public int? ProjectRoleId { get; set; }
+        public ProjectRole ProjectRole { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
@@ -38,25 +40,8 @@ namespace Domain.Core
         public ParticipationType ParticipationType { get; set; }
 
         [Required]
-        public Object TimeWorking
-        {
-            get
-            {
-                return this.TimeWorking;
-
-            }
-            set
-            {
-                if (this.ParticipationType.ToString() == "Percent")
-                {
-                    TimeWorking = (int) value;
-                }
-                else
-                {
-                    TimeWorking = value.ToString();
-                }
-
-            }
-        }
+        public string TimeWorking { get; set; }
+               
+        
     }
 }

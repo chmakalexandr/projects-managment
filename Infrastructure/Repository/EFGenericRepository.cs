@@ -38,6 +38,11 @@ namespace Infrastructure.Data
             return _dbSet.Find(predicate);
         }
 
+        public void Insert(TEntity item)
+        {
+            _dbSet.Add(item);
+        }
+
         public void Create(TEntity item)
         {
             _dbSet.Add(item);
@@ -59,6 +64,11 @@ namespace Infrastructure.Data
             var item = _dbSet.Find(id);
             _dbSet.Remove(item);
             
+        }
+
+        public IEnumerable<TEntity> SelectQuery(string query, object[] parameters)
+        {
+           return _dbSet.SqlQuery(query, parameters);
         }
     }
 }
