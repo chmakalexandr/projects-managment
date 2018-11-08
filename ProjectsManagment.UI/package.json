@@ -1,0 +1,38 @@
+{
+  "name": "react-screencast-code-master",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.15.3",
+    "material-ui": "^0.20.0",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-dropzone": "^3.10.0",
+    "react-scripts": "2.1.1",
+    "react-file-tree": "0.0.8",
+    "react-router-dom": "^4.0.0",
+    "react-tap-event-plugin": "^3.0.2",
+    "superagent": "^3.4.4",
+    "webpack-cli": "^3.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start:dev": "webpack-dev-server"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@babel/preset-react": "^7.0.0",
+    "webpack-dev-server": "^3.1.10"
+  }
+}

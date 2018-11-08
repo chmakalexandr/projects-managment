@@ -9,6 +9,27 @@
 /ProjectsManagment.Entity/obj/*
 /ProjectsManagment.Web/bin/*
 /ProjectsManagment.Web/obj/*
+
+/ProjectsManagment.UI/node_modules
+
+# testing
+/ProjectsManagment.UI/coverage
+
+# production
+/ProjectsManagment.UI/build
+
+# misc
+/ProjectsManagment.UI/*.DS_Store
+/ProjectsManagment.UI/*.env.local
+/ProjectsManagment.UI/*.env.development.local
+/ProjectsManagment.UI/*.env.test.local
+/ProjectsManagment.UI/*.env.production.local
+/ProjectsManagment.UI/npm-debug.log*
+/ProjectsManagment.UI/yarn-debug.log*
+/ProjectsManagment.UI/yarn-error.log*
+
+
+
 *.obj
 *.exe
 *.pdb
