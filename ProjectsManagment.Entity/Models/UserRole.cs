@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjectsManagment.Entity.Models
 {
-    public class Role : IdentityRole
+    class UserRole : IdentityUserRole
     {
-       
     }
 }

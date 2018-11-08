@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectsManagment.Entity.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,15 +9,9 @@ using System.Threading.Tasks;
 
 namespace ProjectsManagment.Entity
 {
-    public enum ParticipationTypeEnum
-    {
-        Percent = 1,
-        Days = 2
-    }
     public class ParticipationType
     {
         
-        [Required]
         public virtual int Id
         {
             get
@@ -29,6 +24,7 @@ namespace ProjectsManagment.Entity
                 Type = (ParticipationTypeEnum)value;
             }
         }
+
         [EnumDataType(typeof(ParticipationTypeEnum))]
         public ParticipationTypeEnum Type { get; set; }
     }
