@@ -6,71 +6,85 @@ using System.Text;
 using System.Threading.Tasks;
 using ProjectsManagment.Data.Interfaces;
 using ProjectsManagment.Entity;
-
+using ProjectsManagment.Data.Repositories;
+using System.Data.Entity.Validation;
 
 namespace Infrastructure.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
         private PMContext context;
-        private EFGenericRepository<User> userRepository;
-        private EFGenericRepository<Project> projectRepository;
-        private EFGenericRepository<ProjectParticipationHistory> projectParticipationHistoryRepository;
-        private EFGenericRepository<ProjectRole> projectRoleRepository;
-        private EFGenericRepository<Role> roleRepository;
+        private UserRepository userRepository;
+        private ProjectRepository projectRepository;
+        private ProjectParticipationHistoryRepository projectParticipationHistoryRepository;
+        private RoleRepository roleRepository;
+
         public UnitOfWork()
         {
             context = new PMContext();
         }
         
-        public IGenericRepository<User> Users
+        public UserRepository Users
         {
             get
             {
                 if (userRepository == null)
-                    userRepository = new EFGenericRepository<User>(context);
+                    userRepository = new UserRepository(context);
                 return userRepository;
             }
         }
-        public IGenericRepository<Role> Roles
-        {
-            get
-            {
-                if (roleRepository == null)
-                    roleRepository = new EFGenericRepository<Role>(context);
-                return roleRepository;
-            }
-        }
-        public IGenericRepository<Project> Projects
+        
+        public ProjectRepository Projects
         {
             get
             {
                 if (projectRepository == null)
-                    projectRepository = new EFGenericRepository<Project>(context);
+                    projectRepository = new ProjectRepository(context);
                 return projectRepository;
             }
         }
-        public IGenericRepository<ProjectParticipationHistory> ProjectParticipationHistories
+        public ProjectParticipationHistoryRepository ProjectParticipationHistories
         {
             get
             {
                 if (projectParticipationHistoryRepository == null)
-                    projectParticipationHistoryRepository = new EFGenericRepository<ProjectParticipationHistory>(context);
+                    projectParticipationHistoryRepository = new ProjectParticipationHistoryRepository(context);
                 return projectParticipationHistoryRepository;
             }
         }
-        public IGenericRepository<ProjectRole> ProjectRoles
+
+        public RoleRepository Roles
         {
             get
             {
-                if (projectRoleRepository == null)
-                    projectRoleRepository = new EFGenericRepository<ProjectRole>(context);
-                return projectRoleRepository;
+                if (roleRepository == null)
+                    roleRepository = new RoleRepository(context);
+                return roleRepository;
             }
         }
+        
+
         public void Save()
         {
-            context.SaveChanges();
+            
+            try
+            {
+
+                context.SaveChanges();
+
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
+                {
+                    Console.Write("Object: " + validationError.Entry.Entity.ToString());
+                    Console.Write("");
+                        foreach (DbValidationError err in validationError.ValidationErrors)
+                    {
+                        Console.Write(err.ErrorMessage + " ");
+                        }
+                }
+            }
         }
         private bool disposed = false;
         public virtual void Dispose(bool disposing)

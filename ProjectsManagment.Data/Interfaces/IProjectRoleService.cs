@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProjectsManagment.Entity;
+using ProjectsManagment.Entity.Models;
 
 namespace ProjectsManagment.Data.Interfaces
 {

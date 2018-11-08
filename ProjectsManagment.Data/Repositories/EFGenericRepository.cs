@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -10,10 +11,10 @@ namespace ProjectsManagment.Data
 {
     public class EFGenericRepository<TEntity>: IGenericRepository<TEntity> where TEntity : class
     {
-        DbContext _context;
-        DbSet<TEntity> _dbSet;
+        protected PMContext _context;
+        protected DbSet<TEntity> _dbSet;
 
-        public EFGenericRepository(DbContext context)
+        public EFGenericRepository(PMContext context)
         {
             _context = context;
             _dbSet = context.Set<TEntity>();
@@ -59,7 +60,7 @@ namespace ProjectsManagment.Data
             
         }
         
-        public void Delete(int id)
+        public void RemoveById(int id)
         {
             var item = _dbSet.Find(id);
             _dbSet.Remove(item);

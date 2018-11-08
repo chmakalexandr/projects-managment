@@ -18,8 +18,7 @@ namespace ProjectsManagment.Data.Services
             unitOfWork = new UnitOfWork();
 
         }
-
-
+        
         //public virtual TEntity Find(params object[] keyValues) { return unitOfWork._repository.Find(keyValues); }
 
         public virtual IQueryable<ProjectParticipationHistory> SelectQuery(string query, params object[] parameters) { return unitOfWork.ProjectParticipationHistories.SelectQuery(query, parameters).AsQueryable(); }
@@ -42,6 +41,11 @@ namespace ProjectsManagment.Data.Services
             unitOfWork.Save();
         }
 
+        public virtual void DeleteById(int id)
+        {
+            unitOfWork.ProjectParticipationHistories.RemoveById(id);
+            unitOfWork.Save();
+        }
 
         public ProjectParticipationHistory FindById(int id)
         {

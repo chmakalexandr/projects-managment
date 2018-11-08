@@ -14,7 +14,7 @@ namespace ProjectsManagment.Data
         private UnitOfWork unitOfWork;
 
         #region Constructor
-        protected UserService()
+        public UserService()
         {
             unitOfWork = new UnitOfWork();
 
@@ -43,7 +43,23 @@ namespace ProjectsManagment.Data
             unitOfWork.Save();
         }
 
-       
+        public virtual void DeleteById(int id)
+        {
+            unitOfWork.Users.RemoveById(id);
+            unitOfWork.Save();
+        }
+
+        
+        public void AddToProject(ProjectParticipationHistory participationHistory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveFromProject(ProjectParticipationHistory participationHistory)
+        {
+            throw new NotImplementedException();
+        }
+                
         public User FindById(int id)
         {
             return unitOfWork.Users.FindById(id);

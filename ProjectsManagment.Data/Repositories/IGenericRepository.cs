@@ -13,8 +13,8 @@ namespace ProjectsManagment.Data
         IEnumerable<TEntity> Get();
         IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
         TEntity Find(string predicate);
-        void Insert(TEntity item);
         void Remove(TEntity item);
+        void RemoveById(int id);
         void Update(TEntity item);
         IEnumerable<TEntity> SelectQuery(string query, object[] parameters);
     }

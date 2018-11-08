@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProjectsManagment.Data.Repositories;
 using ProjectsManagment.Entity;
 
 namespace ProjectsManagment.Data.Interfaces
 {
-    interface IUnitOfWork
+    public interface IUnitOfWork
     {
-        IGenericRepository<User> Users { get; }
-        IGenericRepository<Project> Projects { get; }
-        IGenericRepository<Role> Roles { get; }
-        IGenericRepository<ProjectRole> ProjectRoles { get; }
-        IGenericRepository<ProjectParticipationHistory> ProjectParticipationHistories { get; }
+        UserRepository Users { get; }
+        ProjectRepository Projects { get; }
+        RoleRepository Roles { get; }
+        ProjectParticipationHistoryRepository ProjectParticipationHistories { get; }
+        void Save();
     }
 }

@@ -20,5 +20,11 @@ namespace ProjectsManagment.Data.Interfaces
         User FindById(int id);
 
         User Find(string predicate);
+
+        
+        void AddToProject(ProjectParticipationHistory participationHistory);
+        
+        void RemoveFromProject(ProjectParticipationHistory participationHistory);
+        //Task<List<IEnumerable<Project>>> GetAllProjectsByUserId(int id);
     }
 }
