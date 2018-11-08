@@ -1,5 +1,5 @@
 {
-  "name": "react-screencast-code-master",
+  "name": "projects-managment",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,9 +8,10 @@
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-dropzone": "^3.10.0",
-    "react-scripts": "2.1.1",
     "react-file-tree": "0.0.8",
     "react-router-dom": "^4.0.0",
+    "react-script": "^2.0.5",
+    "react-scripts": "2.1.1",
     "react-tap-event-plugin": "^3.0.2",
     "superagent": "^3.4.4",
     "webpack-cli": "^3.1.2"
