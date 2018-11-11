@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Credential.cs" />
     <Compile Include="Models\ParticipationType.cs" />
     <Compile Include="Models\ParticipationTypeEnum.cs" />
     <Compile Include="Models\Project.cs" />

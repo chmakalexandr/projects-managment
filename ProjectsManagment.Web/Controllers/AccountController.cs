@@ -93,8 +93,8 @@ namespace ProjectsManagment.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("Login")]
-        public async Task<IHttpActionResult> Login(LoginModel model)
+        [Route("Logini")]
+        public async Task<IHttpActionResult> Logini(LoginModel model)
         {
             if (ModelState.IsValid)
             {

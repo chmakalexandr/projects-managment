@@ -19,26 +19,26 @@ class Register extends Component {
   componentWillReceiveProps(nextProps){
     console.log("nextProps",nextProps);
   }
-  handleClick(event,role){
-    var apiBaseUrl = "http://localhost:4000/api/";
+  handleClick(event){
+    var apiBaseUrl = "http://localhost:61318/api/";
     // console.log("values in register handler",role);
     var self = this;
     //To be done:check for empty values before hitting submit
     if(this.state.first_name.length>0 && this.state.last_name.length>0 && this.state.email.length>0 && this.state.password.length>0){
       var payload={
-      "first_name": this.state.first_name,
-      "last_name":this.state.last_name,
-      "userid":this.state.email,
-      "password":this.state.password,
-      "role":role
+      "FirstName": this.state.first_name,
+      "LastName":this.state.last_name,
+      "Email":this.state.email,
+      "Password":this.state.password,
+      
       }
-      axios.post(apiBaseUrl+'/register', payload)
+      axios.post(apiBaseUrl+'/registration', payload)
      .then(function (response) {
        console.log(response);
-       if(response.data.code === 200){
+       if(response.status === 200){
         //  console.log("registration successfull");
          var loginscreen=[];
-         loginscreen.push(<Login parentContext={this} appContext={self.props.appContext} role={role}/>);
+         
          var loginmessage = "Not Registered yet.Go to registration";
          self.props.parentContext.setState({loginscreen:loginscreen,
          loginmessage:loginmessage,
@@ -60,16 +60,6 @@ class Register extends Component {
 
   }
   render() {
-    // console.log("props",this.props);
-    var userhintText, userLabel;
-    if(this.props.role === "student"){
-     // userhintText ="Enter your Student Id",
-     // userLabel ="Student Id"
-    }
-    else{
-      //userhintText="Enter your Teacher Id",
-      //userLabel="Teacher Id"
-    }
     return (
       <div>
         <MuiThemeProvider>
@@ -90,8 +80,8 @@ class Register extends Component {
              />
            <br/>
            <TextField
-             hintText={userhintText}
-             floatingLabelText={userLabel}
+             hintText="Enter your Email"
+             floatingLabelText="Email"
              onChange = {(event,newValue) => this.setState({email:newValue})}
              />
            <br/>
@@ -102,7 +92,7 @@ class Register extends Component {
              onChange = {(event,newValue) => this.setState({password:newValue})}
              />
            <br/>
-           <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event,this.props.role)}/>
+           <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
           </div>
          </MuiThemeProvider>
       </div>
