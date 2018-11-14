@@ -1,100 +1,133 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 import axios from 'axios';
-import Login from './Login';
+import withAuth from '../services/withAuth';
 
 class Register extends Component {
   constructor(props){
     super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.state={
       first_name:'',
       last_name:'',
       email:'',
-      password:''
+      password:'',
+      comfirm_password:'',
+      info_message:''
     }
   }
   componentWillReceiveProps(nextProps){
     console.log("nextProps",nextProps);
   }
-  handleClick(event){
+
+  handleFormSubmit(e){
+    e.preventDefault();
     var apiBaseUrl = "http://localhost:61318/api/";
     // console.log("values in register handler",role);
     var self = this;
     //To be done:check for empty values before hitting submit
-    if(this.state.first_name.length>0 && this.state.last_name.length>0 && this.state.email.length>0 && this.state.password.length>0){
-      var payload={
-      "FirstName": this.state.first_name,
-      "LastName":this.state.last_name,
-      "Email":this.state.email,
-      "Password":this.state.password,
-      
-      }
-      axios.post(apiBaseUrl+'/registration', payload)
-     .then(function (response) {
-       console.log(response);
-       if(response.status === 200){
-        //  console.log("registration successfull");
-         var loginscreen=[];
-         
-         var loginmessage = "Not Registered yet.Go to registration";
-         self.props.parentContext.setState({loginscreen:loginscreen,
-         loginmessage:loginmessage,
-         buttonLabel:"Register",
-         isLogin:true
-          });
-       }
-       else{
+    if(this.state.first_name.length>0 && this.state.last_name.length>0 && this.state.email.length>0 && this.state.password.length>0 && this.state.password===this.state.confirm_password){
+      var user={
+        FirstName: this.state.first_name,
+        LastName: this.state.last_name,
+        Email: this.state.email,
+        Password: this.state.password,
+      };
+      this.fetch(apiBaseUrl+'/registration', {
+        method: 'POST',
+        body: JSON.stringify(user)})
+      .then(function (response) {
+        console.log(response);
+        if(response.status === 200){
+          console.log("User created successfull");
+          this.setState(
+            {
+                info_message:"User created successfull"
+            }
+          )
+        }
+        else {
          console.log("some error ocurred",response.data.code);
-       }
-     })
-     .catch(function (error) {
+         this.setState(
+          {
+              info_message: response.data.code
+          }
+        )
+        }
+      })
+      .catch(function (error) {
        console.log(error);
-     });
-    }
-    else{
-      alert("Input field value is missing");
+      });
+    } else {
+      this.setState(
+      {
+        info_message: "Input field value is missing"
+      })
     }
 
   }
+
+  handleChange(e){
+    this.setState(
+        {
+            [e.target.name]: e.target.value
+        }
+    )
+  }
+
+  
   render() {
     return (
-      <div>
-        <MuiThemeProvider>
-          <div>
-          <AppBar
-             title="Register"
-           />
-           <TextField
-             hintText="Enter your First Name"
-             floatingLabelText="First Name"
-             onChange = {(event,newValue) => this.setState({first_name:newValue})}
-             />
-           <br/>
-           <TextField
-             hintText="Enter your Last Name"
-             floatingLabelText="Last Name"
-             onChange = {(event,newValue) => this.setState({last_name:newValue})}
-             />
-           <br/>
-           <TextField
-             hintText="Enter your Email"
-             floatingLabelText="Email"
-             onChange = {(event,newValue) => this.setState({email:newValue})}
-             />
-           <br/>
-           <TextField
-             type = "password"
-             hintText="Enter your Password"
-             floatingLabelText="Password"
-             onChange = {(event,newValue) => this.setState({password:newValue})}
-             />
-           <br/>
-           <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
-          </div>
-         </MuiThemeProvider>
+      <div className="center">
+        <div className="card">
+          <h1>Create user</h1>
+          <form>
+              <input
+                className="form-item"
+                placeholder="First name..."
+                name="first_name"
+                type="text"
+                onChange={this.handleChange}
+              />
+              <input
+                className="form-item"
+                placeholder="Last name..."
+                name="last_name"
+                type="text"
+                onChange={this.handleChange}
+              />
+              <input
+                className="form-item"
+                placeholder="Email..."
+                name="email"
+                type="text"
+                onChange={this.handleChange}
+              />
+              <input
+                className="form-item"
+                placeholder="Password..."
+                name="password"
+                type="text"
+                onChange={this.handleChange}
+              />
+              <input
+                className="form-item"
+                placeholder="Comfirm Password..."
+                name="comfirm_password"
+                type="text"
+                onChange={this.handleChange}
+              />
+          
+            <br/>
+            <input
+                className="form-submit"
+                value="SUBMIT"
+                type="submit"
+                onClick={(event) => this.handleFormSubmit(event)}
+            />
+            </form>
+        </div>
+        <div>{this.info_message}</div>
       </div>
     );
   }
@@ -104,4 +137,4 @@ const style = {
   margin: 15,
 };
 
-export default Register;
+export default withAuth(Register);

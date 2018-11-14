@@ -15,14 +15,17 @@ export default function withAuth(AuthComponent) {
 
         componentWillMount() {
             if (!Auth.loggedIn()) {
+                console.log("withAuth. not login");
                 this.props.history.replace('/login')
             }
             else {
                 try {
-                    const profile = Auth.getProfile()
-                    this.setState({
-                        user: profile
-                    })
+                    console.log("withAuth.  login suces");
+                    //const profile = Auth.getProfile()
+                    //console.log(profile);
+                    //this.setState({
+                    //    user: profile
+                    //})
                 }
                 catch(err){
                     Auth.logout()
@@ -32,7 +35,7 @@ export default function withAuth(AuthComponent) {
         }
 
         render() {
-            if (this.state.user) {
+            if (Auth.loggedIn()) {
                 return (
                     <AuthComponent history={this.props.history} user={this.state.user} />
                 )

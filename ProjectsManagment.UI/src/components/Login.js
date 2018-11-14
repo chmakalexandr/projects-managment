@@ -11,8 +11,8 @@ class Login extends Component {
         this.Auth = new AuthService();
         this.state={
             username:'',
-            password:''
-                
+            password:'',
+              
           }
     }
     render() {
@@ -23,14 +23,14 @@ class Login extends Component {
                     <form>
                         <input
                             className="form-item"
-                            placeholder="Username goes here..."
+                            placeholder="Email..."
                             name="username"
                             type="text"
                             onChange={this.handleChange}
                         />
                         <input
                             className="form-item"
-                            placeholder="Password goes here..."
+                            placeholder="Password..."
                             name="password"
                             type="password"
                             onChange={this.handleChange}
@@ -64,7 +64,7 @@ class Login extends Component {
         e.preventDefault();
         this.Auth.login(this.state.username,this.state.password)
             .then(res =>{
-               
+               console.log("login success");
                this.props.history.replace('/');
             })
             .catch(err =>{

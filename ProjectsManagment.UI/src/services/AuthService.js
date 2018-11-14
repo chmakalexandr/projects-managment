@@ -10,24 +10,25 @@ export default class AuthService {
     }
 
     login(email, password) {
-        var qs = require('qs');
+        
         // Get a token from api server using the fetch api
         return this.fetch(this.domain+'logini', {
             method: 'POST',
-            body: qs.stringify({
-                email,
-                password
+            body: JSON.stringify({
+                email: email,
+                password: password
             })
-        }).then(token => {
-            console.log(token);
-            this.setToken(token); // Setting the token in localStorage
-            return Promise.resolve(token);
+        }).then(res => {
+            console.log("F_login "+res);
+            this.setToken(res); // Setting the token in localStorage
+            return Promise.resolve(res);
         })
     }
 
     loggedIn() {
         // Checks if there is a saved token and it's still valid
         const token = this.getToken() // GEtting token from localstorage
+        console.log("LoggedIn Token is "+token);
         return !!token && !this.isTokenExpired(token) // handwaiving here
     }
 
@@ -47,11 +48,13 @@ export default class AuthService {
 
     setToken(idToken) {
         // Saves user token to localStorage
-        localStorage.setItem('id_token', idToken)
+        localStorage.setItem('id_token', idToken);
+        console.log("add token to storage: "+localStorage.getItem('id_token'));
     }
 
     getToken() {
         // Retrieves the user token from localStorage
+        console.log("get token from storage: "+localStorage.getItem('id_token'));
         return localStorage.getItem('id_token')
     }
 
@@ -70,12 +73,13 @@ export default class AuthService {
         // performs api calls sending the required authentication headers
         const headers = {
             'Accept': 'application/json',
-            'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+            'content-type': 'application/json;charset=utf-8',
         }
 
         // Setting Authorization header
         // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
         if (this.loggedIn()) {
+            console("add token to header");
             headers['Authorization'] = 'Bearer ' + this.getToken()
         }
 

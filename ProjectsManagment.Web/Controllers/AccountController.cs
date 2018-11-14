@@ -17,6 +17,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 
 namespace ProjectsManagment.Web.Controllers
@@ -24,6 +25,7 @@ namespace ProjectsManagment.Web.Controllers
     
     [Authorize]
     [RoutePrefix("api/Account")]
+    [EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
     public class AccountController : ApiController
     {
         const string apiBaseUri = "http://localhost:61318";
@@ -69,17 +71,18 @@ namespace ProjectsManagment.Web.Controllers
                 {
                     var provider = new DpapiDataProtectionProvider("ApplicationName");
                     UserManager.UserTokenProvider = new DataProtectorTokenProvider<User>(provider.Create("ASP.NET Identity"));
-                                        // генерируем токен для подтверждения регистрации
+                                        
+                    // генерируем токен для подтверждения регистрации
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // создаем ссылку для подтверждения
                     var  callbackUrl = Url.Link("Default", new { Controller = "api/Account", Action = "confirmEmail", code = code, userId = user.Id});
 
                     // отправка письма
-                    //await UserManager.SendEmailAsync(user.Id, "Подтверждение электронной почты",
-                    //           "Для завершения регистрации перейдите по ссылке:: <a href=\""
-                    //                                           + callbackUrl + "\">завершить регистрацию</a>");
+                    await UserManager.SendEmailAsync(user.Id, "Подтверждение электронной почты",
+                               "Для завершения регистрации перейдите по ссылке:: <a href=\""
+                                                               + callbackUrl + "\">завершить регистрацию</a>");
                     
-                    return Ok(callbackUrl); 
+                    return Ok("На указанный электронный адрес отправлены дальнейшие инструкции по завершению регистрации"); 
                 }
                 else
                 {
