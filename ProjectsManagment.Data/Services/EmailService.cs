@@ -12,20 +12,25 @@ namespace ProjectsManagment.Data.Services
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // convert IdentityMessage to a MailMessage
-            var email =
-               new MailMessage(new MailAddress("noreply@mydomain.com", "(do not reply)"),
-               new MailAddress(message.Destination))
-               {
-                   Subject = message.Subject,
-                   Body = message.Body,
-                   IsBodyHtml = true
-               };
+            // настройка логина, пароля отправителя
+            var from = "chmak_87@mail.ru";
+            var pass = "xvfrFD78";
 
-            using (var client = new SmtpClient()) // SmtpClient configuration comes from config file
-            {
-                return client.SendMailAsync(email);
-            }
+            // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
+            SmtpClient client = new SmtpClient("smtp.mail.ru", 25);
+
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(from, pass);
+            client.EnableSsl = true;
+
+            // создаем письмо: message.Destination - адрес получателя
+            var mail = new MailMessage(from, message.Destination);
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
+            mail.IsBodyHtml = true;
+
+            return client.SendMailAsync(mail);
         }
     }
 }

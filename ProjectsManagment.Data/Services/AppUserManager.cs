@@ -24,7 +24,7 @@ namespace ProjectsManagment.Data.Services
         {
             
             AppUserManager manager = new AppUserManager(new UserRepository(context.Get<PMContext>()));
-
+            manager.EmailService = new EmailService();
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 8,
