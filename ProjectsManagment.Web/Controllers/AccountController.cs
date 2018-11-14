@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.DataProtection;
+using Newtonsoft.Json.Linq;
 using ProjectsManagment.Data.Interfaces;
 using ProjectsManagment.Data.Services;
 using ProjectsManagment.Entity;
@@ -10,6 +11,8 @@ using ProjectsManagment.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,10 +21,12 @@ using System.Web.Http;
 
 namespace ProjectsManagment.Web.Controllers
 {
+    
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+        const string apiBaseUri = "http://localhost:61318";
         private IUserService _userService;
 
         public AccountController() : base()
@@ -114,7 +119,8 @@ namespace ProjectsManagment.Web.Controllers
                             IsPersistent = true
                         }, claim);
 
-                        return Ok("пользователь авторизован");
+                        string token = await GetAPIToken(model.Email, model.Password);
+                        return Ok(token);
                     }
                     else
                     {
@@ -125,6 +131,33 @@ namespace ProjectsManagment.Web.Controllers
             }
 
             return BadRequest(ModelState);
+        }
+
+        private static async Task<string> GetAPIToken(string userName, string password)
+        {
+            using (var client = new HttpClient())
+            {
+                //setup client
+                client.BaseAddress = new Uri(apiBaseUri);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                //setup login data
+                var formContent = new FormUrlEncodedContent(new[]
+                {
+                 new KeyValuePair<string, string>("grant_type", "password"),
+                 new KeyValuePair<string, string>("username", userName),
+                 new KeyValuePair<string, string>("password", password),
+                 });
+
+                //send request
+                HttpResponseMessage responseMessage = await client.PostAsync("/Token", formContent);
+
+                //get access token from response body
+                var responseJson = await responseMessage.Content.ReadAsStringAsync();
+                var jObject = JObject.Parse(responseJson);
+                return jObject.GetValue("access_token").ToString();
+            }
         }
 
         [AllowAnonymous]
@@ -172,9 +205,57 @@ namespace ProjectsManagment.Web.Controllers
             return this.Ok(new { message = "Logout successful." });
         }
 
+        [Route("ChangePassword")]
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
+                model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
         private IAuthenticationManager Authentication
         {
             get { return HttpContext.Current.GetOwinContext().Authentication; }
+        }
+
+        private IHttpActionResult GetErrorResult(IdentityResult result)
+        {
+            if (result == null)
+            {
+                return InternalServerError();
+            }
+
+            if (!result.Succeeded)
+            {
+                if (result.Errors != null)
+                {
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // No ModelState errors are available to send, so just return an empty BadRequest.
+                    return BadRequest();
+                }
+
+                return BadRequest(ModelState);
+            }
+
+            return null;
         }
     }      
        

@@ -1,4 +1,5 @@
 import decode from 'jwt-decode';
+
 export default class AuthService {
     // Initializing important variables
     constructor(domain) {
@@ -17,10 +18,10 @@ export default class AuthService {
                 email,
                 password
             })
-        }).then(res => {
-            console.log(res);
-            this.setToken(res.token); // Setting the token in localStorage
-            return Promise.resolve(res);
+        }).then(token => {
+            console.log(token);
+            this.setToken(token); // Setting the token in localStorage
+            return Promise.resolve(token);
         })
     }
 
