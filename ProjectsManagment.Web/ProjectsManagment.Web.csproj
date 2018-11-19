@@ -327,6 +327,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Mappers\ProjectRoleProfile.cs" />
     <Compile Include="Mappers\UserProfile.cs" />
     <Compile Include="Mappers\RoleProfile.cs" />

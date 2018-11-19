@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.DataProtection;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProjectsManagment.Data.Interfaces;
 using ProjectsManagment.Data.Services;
@@ -122,7 +123,8 @@ namespace ProjectsManagment.Web.Controllers
                             IsPersistent = true
                         }, claim);
 
-                        string token = await GetAPIToken(model.Email, model.Password);
+                        var token = await GetAPIToken(model.Email, model.Password);
+                        
                         return Ok(token);
                     }
                     else
@@ -136,7 +138,7 @@ namespace ProjectsManagment.Web.Controllers
             return BadRequest(ModelState);
         }
 
-        private static async Task<string> GetAPIToken(string userName, string password)
+        private  async Task<JObject> GetAPIToken(string userName, string password)
         {
             using (var client = new HttpClient())
             {
@@ -159,7 +161,8 @@ namespace ProjectsManagment.Web.Controllers
                 //get access token from response body
                 var responseJson = await responseMessage.Content.ReadAsStringAsync();
                 var jObject = JObject.Parse(responseJson);
-                return jObject.GetValue("access_token").ToString();
+                //return Json(jObject);
+                return jObject;
             }
         }
 
@@ -197,7 +200,12 @@ namespace ProjectsManagment.Web.Controllers
             return BadRequest(ModelState);
         }
 
-        
+        [HttpGet]
+        [Route("users")]
+        public IHttpActionResult GetAllUsers()
+        {
+            return Ok(UserManager.Users.ToList());
+        }
 
         [HttpPost]
         [AllowAnonymous]

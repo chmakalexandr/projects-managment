@@ -67,5 +67,10 @@ namespace ProjectsManagment.Data.Repositories
         {
             throw new NotImplementedException();
         }
+
+        Task<IEnumerable<Role>> IGenericRepository<Role>.Get()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

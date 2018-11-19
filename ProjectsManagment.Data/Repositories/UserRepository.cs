@@ -43,12 +43,12 @@ namespace ProjectsManagment.Data.Repositories
 
         public User FindById(int id)
         {
-            throw new NotImplementedException();
+            return _dbSet.Find(id);
         }
 
-        public IEnumerable<User> Get()
+        public async Task<IEnumerable<User>> Get()
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToListAsync();
         }
 
         public IEnumerable<User> Get(Func<User, bool> predicate)

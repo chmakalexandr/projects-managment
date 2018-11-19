@@ -10,7 +10,7 @@ namespace ProjectsManagment.Data
     {
         void Create(TEntity item);
         TEntity FindById(int id);
-        IEnumerable<TEntity> Get();
+        Task<IEnumerable<TEntity>> Get();
         IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
         TEntity Find(string predicate);
         void Remove(TEntity item);

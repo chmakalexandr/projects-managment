@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using ProjectsManagment.Data.Services;
+using ProjectsManagment.Entity.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +32,9 @@ namespace ProjectsManagment.Web.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<AppUserManager>();
-
+            var roleManager = context.OwinContext.Get<AppRoleManager>();
             var user = await userManager.FindAsync(context.UserName, context.Password);
-
+            var rolesForUser = await userManager.GetRolesAsync(user.Id);
             if (user == null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
@@ -43,8 +45,8 @@ namespace ProjectsManagment.Web.Providers
                 OAuthDefaults.AuthenticationType);
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
-
-            AuthenticationProperties properties = CreateProperties(user.UserName);
+            
+            AuthenticationProperties properties = CreateProperties(user.UserName, rolesForUser.Aggregate(string.Concat));
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
@@ -86,11 +88,13 @@ namespace ProjectsManagment.Web.Providers
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string userName)
+        public static AuthenticationProperties CreateProperties(string userName, string role )
         {
             IDictionary<string, string> data = new Dictionary<string, string>
         {
-            { "userName", userName }
+            { "userName", userName },
+            { "role", role }
+
         };
             return new AuthenticationProperties(data);
         }

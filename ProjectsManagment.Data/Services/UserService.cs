@@ -69,5 +69,10 @@ namespace ProjectsManagment.Data
         {
             return unitOfWork.Users.Find(predicate);
         }
+
+        public async Task<IEnumerable<User>> FindAll()
+        {
+            return await unitOfWork.Users.Get();
+        }
     }
 }

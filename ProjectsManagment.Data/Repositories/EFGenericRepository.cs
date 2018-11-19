@@ -71,5 +71,10 @@ namespace ProjectsManagment.Data
         {
            return _dbSet.SqlQuery(query, parameters);
         }
+
+        Task<IEnumerable<TEntity>> IGenericRepository<TEntity>.Get()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

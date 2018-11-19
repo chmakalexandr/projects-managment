@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ProjectsManagment.Data.Services
 {
-    class AppRoleManager : RoleManager<IdentityRole>
+    public class AppRoleManager : RoleManager<IdentityRole>
     {
         public AppRoleManager(IRoleStore<IdentityRole, string> roleStore)
             : base(roleStore)
