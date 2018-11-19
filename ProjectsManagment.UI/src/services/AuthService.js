@@ -7,6 +7,7 @@ export default class AuthService {
         this.fetch = this.fetch.bind(this) // React binding stuff
         this.login = this.login.bind(this)
         this.getProfile = this.getProfile.bind(this)
+        
     }
 
     login(email, password) {
@@ -19,8 +20,10 @@ export default class AuthService {
                 password: password
             })
         }).then(res => {
-            console.log("F_login "+res);
-            this.setToken(res); // Setting the token in localStorage
+            console.log(res);
+            this.setToken(res.access_token);
+            this.setUser(res.userName);
+            this.setRole(res.role); // Setting the token in localStorage
             return Promise.resolve(res);
         })
     }
@@ -58,6 +61,33 @@ export default class AuthService {
         return localStorage.getItem('id_token')
     }
 
+    setUser(userName) {
+        // Saves user token to localStorage
+        localStorage.setItem('user', userName);
+        console.log("add user to storage: "+localStorage.getItem('user'));
+    }
+
+    setRole(role) {
+        // Saves user token to localStorage
+        localStorage.setItem('role', role);
+        console.log("add role to storage: "+localStorage.getItem('role'));
+    }
+
+    getToken() {
+        
+        return localStorage.getItem('id_token');
+    }
+
+    getUser() {
+        
+        return localStorage.getItem('user')
+    }
+
+    getRole() {
+       
+        return localStorage.getItem('role')
+    }
+
     logout() {
         // Clear user token and profile data from localStorage
         localStorage.removeItem('id_token');
@@ -65,7 +95,7 @@ export default class AuthService {
 
     getProfile() {
         // Using jwt-decode npm package to decode the token
-        return decode(this.getToken());
+        return 
     }
 
 

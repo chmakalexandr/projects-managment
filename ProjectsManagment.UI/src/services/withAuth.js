@@ -9,7 +9,9 @@ export default function withAuth(AuthComponent) {
         constructor() {
             super();
             this.state = {
-                user: null
+                user: {},
+                token_id: null,
+                
             } 
         }
 
