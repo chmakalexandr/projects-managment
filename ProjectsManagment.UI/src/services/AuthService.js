@@ -3,6 +3,10 @@ import decode from 'jwt-decode';
 export default class AuthService {
     // Initializing important variables
     constructor(domain) {
+        this.state = {
+            user: "",
+            role: null,
+        } 
         this.domain = domain || 'http://localhost:61318/api/Account/' // API server domain
         this.fetch = this.fetch.bind(this) // React binding stuff
         this.login = this.login.bind(this)
@@ -13,7 +17,7 @@ export default class AuthService {
     login(email, password) {
         
         // Get a token from api server using the fetch api
-        return this.fetch(this.domain+'logini', {
+        return this.fetch(this.domain+'loginin', {
             method: 'POST',
             body: JSON.stringify({
                 email: email,
@@ -21,9 +25,13 @@ export default class AuthService {
             })
         }).then(res => {
             console.log(res);
+            
             this.setToken(res.access_token);
             this.setUser(res.userName);
             this.setRole(res.role); // Setting the token in localStorage
+            this.user = res.userName;
+            this.role = res.role;
+            
             return Promise.resolve(res);
         })
     }
@@ -73,18 +81,12 @@ export default class AuthService {
         console.log("add role to storage: "+localStorage.getItem('role'));
     }
 
-    getToken() {
-        
-        return localStorage.getItem('id_token');
-    }
-
+   
     getUser() {
-        
         return localStorage.getItem('user')
     }
 
     getRole() {
-       
         return localStorage.getItem('role')
     }
 

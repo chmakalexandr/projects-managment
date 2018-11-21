@@ -61,7 +61,7 @@ class Login extends Component {
         )
     }
     handleFormSubmit(e){
-        
+        e.preventDefault();
         this.Auth.login(this.state.username,this.state.password)
             .then(res =>{
                console.log("login success");

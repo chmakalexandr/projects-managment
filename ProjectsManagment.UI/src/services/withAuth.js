@@ -9,10 +9,10 @@ export default function withAuth(AuthComponent) {
         constructor() {
             super();
             this.state = {
-                user: {},
-                token_id: null,
-                
-            } 
+                user : null,
+                auth: Auth
+            }
+            
         }
 
         componentWillMount() {
@@ -25,9 +25,9 @@ export default function withAuth(AuthComponent) {
                     console.log("withAuth.  login suces");
                     //const profile = Auth.getProfile()
                     //console.log(profile);
-                    //this.setState({
-                    //    user: profile
-                    //})
+                    this.setState({
+                        user: Auth.getUser()
+                    })
                 }
                 catch(err){
                     Auth.logout()
