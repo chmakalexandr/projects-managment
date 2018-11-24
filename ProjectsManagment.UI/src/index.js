@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import UsersList from './components/UsersList';
+import Users from './components/Users';
  
 ReactDOM.render(
   <Router>
@@ -13,7 +14,7 @@ ReactDOM.render(
           <Route exact path="/" component={App} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/registration" component={Register} />
-          <Route exact path="/users" component={UsersList} />
+          <Route exact path="/users" component={Users} />
       </div>
   </Router>
   , document.getElementById('root')

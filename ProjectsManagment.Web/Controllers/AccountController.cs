@@ -202,7 +202,7 @@ namespace ProjectsManagment.Web.Controllers
 
         [HttpGet]
         [Route("users")]
-        public IHttpActionResult GetAllUsers()
+        public async Task<IHttpActionResult> GetAllUsers()
         {
             return Ok(UserManager.Users.ToList());
         }
