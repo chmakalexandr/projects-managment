@@ -6,19 +6,19 @@ export function request(url, options) {
         'content-type': 'application/json;charset=utf-8',
     }
 
-    
     // Setting Authorization header
     // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
-    const token = localStorage.getItem('id_token');
+    const token = localStorage.getItem('id_token')
     if (token) {
-        console.log(token);
-        options.headers['Authorization'] = 'Bearer ' + token;
-    }    
+        console("add token to header");
+        headers['Authorization'] = 'Bearer ' + token
+    }
 
     return fetch(url, {
         headers,
         ...options
     })
+        .then(this._checkStatus)
         .then(response => response.json())
 }
 
@@ -29,7 +29,7 @@ export function get(url) {
         headers: {}
     }
 
-    const token = localStorage.getItem('id_token');
+    const token = localStorage.getItem('id_token')
     if (token) {
         options.headers['Authorization'] = 'Bearer ' + token;
     }
@@ -37,4 +37,3 @@ export function get(url) {
     const response = axios(options);
     return response.then(res => { return res.data });
 }
-

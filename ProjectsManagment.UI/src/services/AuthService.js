@@ -1,3 +1,4 @@
+import decode from 'jwt-decode';
 import * as api from './api';
 
 export default class AuthService {
@@ -8,7 +9,7 @@ export default class AuthService {
             role: null,
         } 
         this.domain = domain || 'http://localhost:61318/api/Account/' // API server domain
-        // React binding stuff
+       
         this.login = this.login.bind(this)
         this.getProfile = this.getProfile.bind(this)
         
@@ -25,7 +26,7 @@ export default class AuthService {
             })
         }).then(res => {
             console.log(res);
-            
+        
             this.setToken(res.access_token);
             this.setUser(res.userName);
             this.setRole(res.role); // Setting the token in localStorage
@@ -38,9 +39,23 @@ export default class AuthService {
 
     loggedIn() {
         // Checks if there is a saved token and it's still valid
-        const token = this.getToken() // GEtting token from localstorage
+        const token = this.getToken(); // GEtting token from localstorage
         console.log("LoggedIn Token is "+token);
-        return token // handwaiving here
+        return !!token && !this.isTokenExpired(token) // handwaiving here
+    }
+
+    isTokenExpired(token) {
+        try {
+            const decoded = decode(token);
+            if (decoded.exp < Date.now() / 1000) { // Checking if token is expired. N
+                return true;
+            }
+            else
+                return false;
+        }
+        catch (err) {
+            return false;
+        }
     }
 
     setToken(idToken) {
@@ -49,10 +64,10 @@ export default class AuthService {
         console.log("add token to storage: "+localStorage.getItem('id_token'));
     }
 
+    
     getToken() {
-        // Retrieves the user token from localStorage
-        console.log("get token from storage: "+localStorage.getItem('id_token'));
-        return localStorage.getItem('id_token')
+        
+        return localStorage.getItem('id_token');
     }
 
     setUser(userName) {

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import AuthService from './services/AuthService';
 import withAuth from './services/withAuth';
-import Users from './components/Users';
 import logo from './logo.svg';
 import './App.css';
 const Auth = new AuthService();

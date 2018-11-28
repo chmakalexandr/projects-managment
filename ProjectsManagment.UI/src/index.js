@@ -14,7 +14,8 @@ ReactDOM.render(
           <Route exact path="/" component={App} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/registration" component={Register} />
-          <Route exact path="/users" component={Users} />
+          <Route exact path="/users" component={UsersList} />
+          <Route exact path="/user" component={Users} />
       </div>
   </Router>
   , document.getElementById('root')

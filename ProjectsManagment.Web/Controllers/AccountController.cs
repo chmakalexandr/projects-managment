@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using ProjectsManagment.Data.Interfaces;
 using ProjectsManagment.Data.Services;
 using ProjectsManagment.Entity;
+using ProjectsManagment.Entity.ViewModels;
 using ProjectsManagment.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -206,6 +207,54 @@ namespace ProjectsManagment.Web.Controllers
         {
             return Ok(UserManager.Users.ToList());
         }
+
+        [HttpGet]
+        [Route("user/{id:guid}", Name = "GetUserById")]
+        public async Task<IHttpActionResult> GetUserById(string id)
+        {
+            var user = await UserManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                return Ok(user);
+            }
+
+            return NotFound();
+
+        }
+
+
+        [HttpPost]
+        [Route("edit-user")]
+        public async Task<IHttpActionResult> Edit(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Get the current application user
+                var user = await UserManager.FindByEmailAsync(model.Id.ToString());
+
+                // Update the details
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Email = model.Email;
+                
+
+                // This is the part that doesn't work
+                var result = await UserManager.UpdateAsync(user);
+
+                // However, it always succeeds inspite of not updating the database
+                if (result.Succeeded)
+                {
+                    return Ok();
+                } else
+                {
+                    return GetErrorResult(result);
+                }
+            }
+
+            return BadRequest(ModelState);
+        }
+
 
         [HttpPost]
         [AllowAnonymous]
